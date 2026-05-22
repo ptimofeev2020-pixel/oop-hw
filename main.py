@@ -20,25 +20,34 @@ def main() -> None:
 
     print(f"Категория: {category1.name}")
     print(f"Описание: {category1.description}")
-    print(f"Товаров в категории: {len(category1.products)}")
-    print()
+    print(f"Товары в категории:\n{category1.products}")
 
-    for product in category1.products:
-        print(f"  {product.name} — {product.price} руб. (в наличии: {product.quantity} шт.)")
-
-    print()
     print(f"Всего категорий: {Category.category_count}")
     print(f"Всего товаров: {Category.product_count}")
+
+    # Добавление товара через add_product
+    product4 = Product("Huawei P60", "256GB, Чёрный", 90000.0, 3)
+    category1.add_product(product4)
+    print(f"\nПосле добавления товара:\n{category1.products}")
+
+    # Создание товара через класс-метод new_product
+    product_data = {"name": "OnePlus 12", "description": "256GB", "price": 75000.0, "quantity": 10}
+    new_p = Product.new_product(product_data)
+    print(f"Новый товар: {new_p.name} — {new_p.price} руб.")
+
+    # Проверка дубликата
+    duplicate_data = {"name": "Samsung Galaxy S23 Ultra", "description": "256GB", "price": 200000.0, "quantity": 3}
+    merged = Product.new_product(duplicate_data, category1.products_list)
+    print(f"Объединённый товар: {merged.name} — {merged.price} руб., {merged.quantity} шт.")
 
     # Загрузка из JSON
     print("\n--- Загрузка из JSON ---")
     categories = load_from_json("data/products.json")
     for cat in categories:
         print(f"\nКатегория: {cat.name}")
-        for p in cat.products:
-            print(f"  {p.name} — {p.price} руб.")
+        print(cat.products)
 
-    print(f"\nВсего категорий: {Category.category_count}")
+    print(f"Всего категорий: {Category.category_count}")
     print(f"Всего товаров: {Category.product_count}")
 
 

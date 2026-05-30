@@ -1,44 +1,40 @@
-"""Главный модуль проекта — демонстрация работы классов Product и Category."""
+"""Главный модуль проекта — демонстрация работы классов."""
 
-from src.classes import Category, Product
+from src.classes import Category, LawnGrass, Order, Smartphone
 from src.utils import load_from_json
 
 
 def main() -> None:
-    """Демонстрирует создание и использование объектов Product и Category."""
-    # Создание товаров
-    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
-    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
-    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
-
-    # Создание категории
-    category1 = Category(
-        "Смартфоны",
-        "Смартфоны, как средство не только коммуникации",
-        [product1, product2, product3],
+    """Демонстрирует создание и использование объектов."""
+    # Смартфоны (PrintMixin выведет repr при создании)
+    smartphone1 = Smartphone(
+        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет", 180000.0, 5, 95.5, "S23 Ultra", 256, "Серый"
+    )
+    smartphone2 = Smartphone(
+        "Iphone 15", "512GB, Gray space", 210000.0, 8, 98.2, "iPhone 15 Pro", 512, "Gray"
     )
 
-    print(f"Категория: {category1.name}")
-    print(f"Описание: {category1.description}")
-    print(f"Товаров в категории: {len(category1.products)}")
-    print()
+    # Газонная трава
+    grass1 = LawnGrass("Газон Элит", "Для сада", 500.0, 20, "Голландия", "2 недели", "Зелёный")
+    print(f"\n{grass1}")
 
-    for product in category1.products:
-        print(f"  {product.name} — {product.price} руб. (в наличии: {product.quantity} шт.)")
+    # Категория
+    category = Category("Смартфоны", "Умные телефоны", [smartphone1, smartphone2])
+    print(f"\n{category}")
+    print(category.products)
 
-    print()
-    print(f"Всего категорий: {Category.category_count}")
-    print(f"Всего товаров: {Category.product_count}")
+    # Заказ
+    order = Order(smartphone1, 2)
+    print(order)
 
     # Загрузка из JSON
     print("\n--- Загрузка из JSON ---")
     categories = load_from_json("data/products.json")
     for cat in categories:
-        print(f"\nКатегория: {cat.name}")
-        for p in cat.products:
-            print(f"  {p.name} — {p.price} руб.")
+        print(f"\n{cat}")
+        print(cat.products)
 
-    print(f"\nВсего категорий: {Category.category_count}")
+    print(f"Всего категорий: {Category.category_count}")
     print(f"Всего товаров: {Category.product_count}")
 
 

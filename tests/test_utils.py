@@ -107,15 +107,16 @@ class TestLoadFromJson:
         assert result[0].description == "Все виды электроники"
 
     def test_products_loaded(self, sample_json: str) -> None:
-        """Товары внутри категории загружаются."""
+        """Товары внутри категории загружаются (видны через геттер)."""
         result = load_from_json(sample_json)
-        assert len(result[0].products) == 2
-        assert len(result[1].products) == 1
+        assert "Телефон" in result[0].products
+        assert "Планшет" in result[0].products
+        assert "Футболка" in result[1].products
 
     def test_product_attributes(self, sample_json: str) -> None:
-        """Атрибуты товара загружаются корректно."""
+        """Атрибуты товара загружаются корректно (проверка через products_list)."""
         result = load_from_json(sample_json)
-        p = result[0].products[0]
+        p = result[0].products_list[0]
         assert p.name == "Телефон"
         assert p.description == "Смартфон"
         assert p.price == 50000.0
@@ -125,7 +126,7 @@ class TestLoadFromJson:
         """Товары — экземпляры класса Product."""
         result = load_from_json(sample_json)
         for cat in result:
-            for p in cat.products:
+            for p in cat.products_list:
                 assert isinstance(p, Product)
 
     def test_class_counters_updated(self, sample_json: str) -> None:
@@ -143,5 +144,5 @@ class TestLoadFromJson:
         """Категория без товаров загружается корректно."""
         result = load_from_json(no_products_json)
         assert len(result) == 1
-        assert result[0].products == []
+        assert result[0].products == ""
         assert Category.product_count == 0

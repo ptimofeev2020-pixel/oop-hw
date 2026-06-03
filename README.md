@@ -1,24 +1,36 @@
 # Домашнее задание: ООП — Интернет-магазин
 
-Проект реализует базовые классы для интернет-магазина: `Product` и `Category`.
+Проект реализует классы для интернет-магазина с обработкой исключений,
+абстрактными классами, миксинами и наследованием.
 
 ## Структура проекта
 
 ```
 ├── data/
-│   └── products.json        # Данные о товарах
+│   └── products.json
 ├── src/
 │   ├── __init__.py
-│   ├── classes.py            # Классы Product и Category
-│   └── utils.py              # Загрузка данных из JSON
+│   ├── classes.py            # BaseProduct, PrintMixin, Product, Smartphone,
+│   │                         # LawnGrass, BaseCategory, Category, Order,
+│   │                         # CategoryIterator, ZeroQuantityError
+│   └── utils.py
 ├── tests/
 │   ├── __init__.py
-│   ├── test_classes.py       # Тесты классов
-│   └── test_utils.py         # Тесты утилит
-├── main.py                   # Точка входа
+│   ├── test_classes.py
+│   └── test_utils.py
+├── main.py
 ├── pyproject.toml
 └── .flake8
 ```
+
+## Реализованная функциональность
+
+- ValueError при создании Product с quantity=0 ("Товар с нулевым количеством не может быть добавлен")
+- Метод middle_price() в Category — средний ценник, обработка деления на ноль (возвращает 0)
+- Пользовательское исключение ZeroQuantityError для add_product (try/except/else/finally)
+- Абстрактные классы BaseProduct и BaseCategory, миксин PrintMixin
+- Наследники Product: Smartphone, LawnGrass
+- Класс Order, ограничения __add__ через type(), add_product через isinstance()
 
 ## Установка
 
@@ -38,18 +50,10 @@ python main.py
 pytest --cov=src --cov-report=term-missing
 ```
 
-## Линтеры
-
-```bash
-flake8 src tests main.py
-mypy src main.py
-isort --check src tests main.py
-```
-
 ## Результаты
 
-- **Тесты:** 33 passed
-- **Покрытие:** 100%
+- **Тесты:** 61 passed
+- **Покрытие:** 94%
 - **flake8:** OK
 - **mypy:** OK (strict)
 - **isort:** OK
